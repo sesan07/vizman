@@ -1,0 +1,9 @@
+<app-entity-canvas [allowInteraction]="false"
+                   [entities]="entities">
+</app-entity-canvas>
+<div #handle
+     class="handle"
+     [ngStyle]="{ 'transform': emitter.isSelected ? 'scale(1)' : 'scale(0)' }"
+     appDraggable
+     [viewScale]="viewScale">
+</div>

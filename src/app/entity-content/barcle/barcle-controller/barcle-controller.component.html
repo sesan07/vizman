@@ -1,0 +1,36 @@
+<nz-collapse>
+    <nz-collapse-panel nzHeader="Barcle Options">
+        <app-control-line *ngIf="content.isEmitted" name="Random Colors">
+            <nz-switch [(ngModel)]="content.randomizeColors"></nz-switch>
+        </app-control-line>
+        <ng-container *ngIf="!content.randomizeColors">
+            <app-control-line name="Start Color">
+                <app-color-picker [(color)]="content.startColor"></app-color-picker>
+            </app-control-line>
+            <app-control-line name="End Color">
+                <app-color-picker [(color)]="content.endColor"></app-color-picker>
+            </app-control-line>
+        </ng-container>
+        <app-control-line name="Samples" description="Number of barcles. Each barcle represents an audio analysis sample">
+            <nz-select [(ngModel)]="content.sampleCount" (ngModelChange)="onSampleCountChanged()">
+                <nz-option *ngFor="let option of sampleCountOptions" [nzValue]="option" [nzLabel]="option"></nz-option>
+            </nz-select>
+        </app-control-line>
+        <app-control-line name="Multiplier" description="Barcle distance from base">
+            <nz-input-number [(ngModel)]="content.multiplier" [nzStep]="0.1" [nzMin]="0" [nzMax]="5" (ngModelChange)="onDimensionsChange()"></nz-input-number>
+            <nz-slider [(ngModel)]="content.multiplier" [nzStep]="0.1" [nzMin]="0" [nzMax]="5" (ngModelChange)="onDimensionsChange()"></nz-slider>
+        </app-control-line>
+        <app-control-line *ngIf="!content.isEmitted" name="Shadow Blur" description="Adds a shadow effect (Not recommended on firefox)">
+            <nz-input-number [(ngModel)]="content.shadowBlur" [nzStep]="1" [nzMin]="0" [nzMax]="100"></nz-input-number>
+            <nz-slider [(ngModel)]="content.shadowBlur" [nzStep]="1" [nzMin]="0" [nzMax]="100"></nz-slider>
+        </app-control-line>
+
+        <app-control-line name="Center Radius">
+            <nz-input-number [(ngModel)]="content.baseRadius" [nzStep]="50" [nzMin]="0" [nzMax]="1000" (ngModelChange)="onDimensionsChange()"></nz-input-number>
+            <nz-slider [(ngModel)]="content.baseRadius" [nzStep]="50" [nzMin]="0" [nzMax]="1000" (ngModelChange)="onDimensionsChange()"></nz-slider>
+        </app-control-line>
+        <app-control-line name="Fill Center">
+            <nz-switch [(ngModel)]="content.fillCenter"></nz-switch>
+        </app-control-line>
+    </nz-collapse-panel>
+</nz-collapse>

@@ -1,0 +1,47 @@
+<nz-collapse>
+    <nz-collapse-panel nzHeader="Emitter Options">
+        <app-control-line name="Emitter Type">
+            <nz-radio-group [(ngModel)]="emitter.type">
+                <label *ngFor="let option of emitterTypeOptions" nz-radio-button [nzValue]="option">{{option}}</label>
+            </nz-radio-group>
+        </app-control-line>
+
+        <app-control-line name="Name">
+            <span class="name-edit-text">{{emitter.name}}</span>
+            <button nz-button
+                    nz-popover
+                    nzPopoverTitle="Edit Name"
+                    nzPopoverTrigger="click"
+                    [(nzPopoverVisible)]="nameEditPopOverVisible"
+                    [nzPopoverContent]="nameEditTemplate">
+                <i nz-icon nzType="edit"></i>
+            </button>
+            <ng-template #nameEditTemplate>
+                <input #nameEditInput nz-input placeholder="Entity Name" [ngModel]="emitter.name"/>
+                <span class="popover-action-buttons">
+                    <button nz-button nzDanger (click)="nameEditPopOverVisible = false">
+                        <i nz-icon nzType="close"></i>
+                    </button>
+                    <button nz-button nzType="primary" (click)="emitter.name = nameEditInput.value; nameEditPopOverVisible = false">
+                        <i nz-icon nzType="check"></i>
+                    </button>
+                </span>
+            </ng-template>
+        </app-control-line>
+
+        <app-control-line name="Interval" description="Time between emissions (seconds)">
+            <nz-input-number [(ngModel)]="emitter.interval" [nzStep]="0.1" [nzMin]="0" [nzMax]="10"></nz-input-number>
+            <nz-slider [(ngModel)]="emitter.interval" [nzStep]="0.1" [nzMin]="0" [nzMax]="10"></nz-slider>
+        </app-control-line>
+        <app-control-line name="Amount" description="The number of entities emitted at a time">
+            <nz-input-number [(ngModel)]="emitter.amount" [nzStep]="1" [nzMin]="0" [nzMax]="10"></nz-input-number>
+            <nz-slider [(ngModel)]="emitter.amount" [nzStep]="1" [nzMin]="0" [nzMax]="10"></nz-slider>
+        </app-control-line>
+        <app-control-line name="Lifespan" description="How long emitted entities last">
+            <nz-input-number [(ngModel)]="emitter.lifespan" [nzStep]="0.1" [nzMin]="0" [nzMax]="10"></nz-input-number>
+            <nz-slider [(ngModel)]="emitter.lifespan" [nzStep]="0.1" [nzMin]="0" [nzMax]="10"></nz-slider>
+        </app-control-line>
+    </nz-collapse-panel>
+</nz-collapse>
+
+<app-entity-controller [entity]="emitter.entity"></app-entity-controller>

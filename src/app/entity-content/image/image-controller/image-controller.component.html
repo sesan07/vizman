@@ -1,0 +1,20 @@
+<nz-collapse>
+    <nz-collapse-panel nzHeader="Image Options">
+        <app-control-line name="Image">
+            <app-source-picker allowFileAdd="true"
+                               allowUrlAdd="true"
+                               fileAcceptTypes="image/*"
+                               popoverTitle="Add Image"
+                               [activeSource]="content.source"
+                               [sources]="imageSourceService.sources"
+                               (activeSourceChanged)="onSourceChange($event)"
+                               (addFile)="imageSourceService.addFileSource($event.name,$event.file)"
+                               (addUrl)="imageSourceService.addUrlSource($event.name,$event.url)">
+            </app-source-picker>
+        </app-control-line>
+        <app-control-line *ngIf="content.source.frames.length > 1" name="Speed">
+            <nz-input-number [(ngModel)]="content.speed" [nzStep]="0.01" [nzMin]="0" [nzMax]="2"></nz-input-number>
+            <nz-slider [(ngModel)]="content.speed" [nzStep]="0.01" [nzMin]="0" [nzMax]="2"></nz-slider>
+        </app-control-line>
+    </nz-collapse-panel>
+</nz-collapse>

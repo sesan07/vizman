@@ -1,0 +1,61 @@
+<div class="card">
+    <span class="card-header">
+        <span class="card-title">{{name}}</span>
+        <nz-button-group>
+            <button class="add-btn" nz-button nzType="primary" (click)="onAddOptionClicked(selectedAddOption)">
+                    <i nz-icon nzType="plus"></i>
+                {{'Add ' + selectedAddOption}}
+            </button>
+            <button class="expand-btn" nz-button nz-dropdown nzType="primary" [nzDropdownMenu]="menu"  nzTrigger="click" nzPlacement="bottomRight" [title]="'Select ' + name">
+                <i nz-icon nzType="ellipsis"></i>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                    <li *ngFor="let option of addOptions" nz-menu-item (click)="onAddOptionClicked(option)">{{option}}</li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-button-group>
+    </span>
+
+    <ng-container *ngIf="configs.length > 0">
+        <div class="list">
+                <span class="list-item"
+                      @controllerEnterLeaveTrigger
+                      *ngFor="let config of configs; let i = index">
+                    <button class="primary-btn" nz-button nzGhost
+                            [nzType]="activeConfig === config ? 'primary' : 'default'"
+                            (click)="onConfigSelected($event, config)">
+                        {{config.name}}
+                    </button>
+                    <button nz-button
+                            nzDanger
+                            (click)="remove.emit(config)">
+                        <i nz-icon nzType="delete"></i>
+                        Remove
+                    </button>
+                </span>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeConfig">
+        <app-entity-controller class="control-group" *ngIf="type === 'entity'"
+                               @controllerEnterLeaveTrigger
+                               [entity]="activeConfig">
+        </app-entity-controller>
+        <app-entity-emitter-controller class="control-group" *ngIf="type === 'emitter'"
+                                       @controllerEnterLeaveTrigger
+                                       [emitter]="activeConfig">
+        </app-entity-emitter-controller>
+
+        <span class="action-buttons">
+            <button nz-button (click)="duplicateActive.emit()">
+                <i nz-icon nzType="copy"></i>
+                Duplicate
+            </button>
+            <button nz-button nzDanger (click)="closeActive.emit()">
+                <i nz-icon nzType="close"></i>
+                Close
+            </button>
+        </span>
+    </ng-container>
+</div>

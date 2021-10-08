@@ -1,0 +1,68 @@
+<nz-select [ngModel]="activeSource"
+           (ngModelChange)="activeSourceChanged.emit($event)">
+    <nz-option *ngFor="let option of sources" [nzValue]="option"
+               [nzLabel]="option.name">
+    </nz-option>
+</nz-select>
+<button nz-button
+        nz-popover
+        [nzPopoverTitle]="popoverTitle"
+        nzPopoverTrigger="click"
+        [(nzPopoverVisible)]="isPopoverVisible"
+        (nzPopoverVisibleChange)="onPopOverVisibleChange()"
+        [nzPopoverContent]="popoverTemplate">
+    <i nz-icon nzType="plus"></i>
+</button>
+
+<ng-template #popoverTemplate>
+    <nz-radio-group [(ngModel)]="sourceType" (ngModelChange)="onSourceTypeChange()">
+        <label *ngIf="allowFileAdd" nz-radio-button nzValue="File">File</label>
+        <label *ngIf="allowUrlAdd" nz-radio-button nzValue="Url">Url</label>
+    </nz-radio-group>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="onPopoverSubmit()">
+        <nz-form-item>
+            <nz-form-label nzRequired>Name</nz-form-label>
+            <nz-form-control [nzErrorTip]="nameErrorTpl">
+                <input nz-input formControlName="name" placeholder="Source Name"/>
+                <ng-template #nameErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">Name is required</ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="sourceType === 'Url'">
+            <nz-form-label nzRequired>Url</nz-form-label>
+            <nz-form-control [nzErrorTip]="urlErrorTpl">
+                <input nz-input formControlName="url" type="url" placeholder="Source Url"/>
+                <ng-template #urlErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">Url is required</ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="sourceType === 'File'">
+            <nz-form-label nzRequired>File</nz-form-label>
+            <nz-form-control [nzErrorTip]="filesErrorTpl">
+                <div class="popover-file-wrapper">
+                    <input #fileInput nz-input formControlName="file" type="file" hidden [accept]="fileAcceptTypes"/>
+                    <span class="popover-file-name">{{ fileName || 'No file selected' }}</span>
+                    <button type="button" nz-button (click)="fileInput.click()">
+                        <i nz-icon nzType="upload"></i>
+                    </button>
+                    <ng-template #filesErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">File is required</ng-container>
+                    </ng-template>
+                </div>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+                <span class="popover-action-buttons">
+                    <button type="button" nz-button nzDanger (click)="onPopoverClose()">
+                        <i nz-icon nzType="close"></i>
+                    </button>
+                    <button type="submit" [disabled]="!form.valid" nz-button nzType="primary">
+                        <i nz-icon nzType="check"></i>
+                    </button>
+                </span>
+        </nz-form-item>
+    </form>
+</ng-template>

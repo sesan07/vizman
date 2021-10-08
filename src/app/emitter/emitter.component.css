@@ -1,0 +1,19 @@
+:host {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.handle {
+    position: absolute;
+    cursor: move;
+    touch-action: none;
+    border-radius: 50%;
+    background: grey;
+    height: 100px;
+    width: 100px;
+    transition: transform 0.3s;
+    z-index: 1;
+}

@@ -1,0 +1,30 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.list-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  .primary-btn {
+    flex-grow: 1;
+  }
+}
+
+.list-item:last-child {
+  margin-bottom: 0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  button {
+    width: 150px;
+  }
+}
